@@ -1,46 +1,56 @@
 package bo.edu.ucb.tasks.api;
 
-import bo.edu.ucb.tasks.dto.EtiquetaDto;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import bo.edu.ucb.tasks.bl.EtiquetaBl;
+import bo.edu.ucb.tasks.dto.EtiquetaRequestDto;
+import bo.edu.ucb.tasks.dto.EtiquetaResponseDto;
+import bo.edu.ucb.tasks.entity.Etiqueta;
+
 @RestController
-@RequestMapping("/api/etiquetas")
 public class EtiquetaAPI {
 
-    private final List<EtiquetaDto> etiquetas = new ArrayList<>();
-    
-    // Endpoint para obtener todas las etiquetas
-    @GetMapping
-    public ResponseEntity<List<EtiquetaDto>> obtenerTodasLasEtiquetas() {
-        return ResponseEntity.ok(etiquetas);
+    private EtiquetaBl etiquetaBl;
+
+    @Autowired
+    public EtiquetaAPI(EtiquetaBl etiquetaBl) {
+        this.etiquetaBl = etiquetaBl;
     }
 
-    // Endpoint para crear una nueva etiqueta
-    @PostMapping
-    public ResponseEntity<EtiquetaDto> crearEtiqueta(@RequestBody EtiquetaDto etiquetaDto) {
-        etiquetas.add(etiquetaDto);
-        return ResponseEntity.ok(etiquetaDto);
+    @PostMapping("/api/v1/etiquetas")
+    public EtiquetaResponseDto crearEtiqueta(@RequestBody EtiquetaRequestDto etiquetaRequestDto) {
+        Etiqueta etiqueta = new Etiqueta();
+        etiqueta.setNombreEtiqueta(etiquetaRequestDto.getNombreEtiqueta());
+        Etiqueta nuevaEtiqueta = etiquetaBl.crearEtiqueta(etiqueta);
+        return new EtiquetaResponseDto(nuevaEtiqueta);
     }
 
-    // Endpoint para eliminar una etiqueta por ID
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarEtiqueta(@PathVariable Integer id) {
-        // Busca y elimina la etiqueta por ID
-        EtiquetaDto etiquetaEliminada = null;
-        for (EtiquetaDto etiqueta : etiquetas) {
-            if (etiqueta.getId().equals(id)) {
-                etiquetaEliminada = etiqueta;
-                break;
-            }
+    @GetMapping("/api/v1/etiquetas/{id}")
+    public EtiquetaResponseDto obtenerEtiquetaPorId(@PathVariable Long id) {
+        Etiqueta etiqueta = etiquetaBl.obtenerEtiquetaPorId(id);
+        if (etiqueta != null) {
+            return new EtiquetaResponseDto(etiqueta);
+        } else {
+            return new EtiquetaResponseDto("No se encontró la etiqueta con el ID proporcionado.");
         }
-        if (etiquetaEliminada != null) {
-            etiquetas.remove(etiquetaEliminada);
-        }
-        return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/api/v1/etiquetas")
+    public List<EtiquetaResponseDto> obtenerTodasLasEtiquetas() {
+        List<Etiqueta> etiquetas = etiquetaBl.obtenerTodasLasEtiquetas();
+        List<EtiquetaResponseDto> responseDtos = new ArrayList<>();
+        for (Etiqueta etiqueta : etiquetas) {
+            responseDtos.add(new EtiquetaResponseDto(etiqueta));
+        }
+        return responseDtos;
+    }
+
+    @DeleteMapping("/api/v1/etiquetas/{id}")
+    public EtiquetaResponseDto eliminarEtiqueta(@PathVariable Long id) {
+        etiquetaBl.eliminarEtiqueta(id);
+        return new EtiquetaResponseDto("La etiqueta se eliminó correctamente.");
+    }
 }

@@ -1,15 +1,6 @@
 package bo.edu.ucb.tasks.entity;
 
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "etiquetas")
@@ -17,6 +8,7 @@ public class Etiqueta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "nombre_etiqueta", nullable = false)
@@ -24,14 +16,14 @@ public class Etiqueta {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
-    private Integer usuario;
+    private Usuario usuario;
 
     // Constructor vacío
     public Etiqueta() {
     }
 
-    // Constructor con el nombre de etiqueta
-    public Etiqueta(String nombreEtiqueta, Integer usuario) {
+    // Constructor con parámetros
+    public Etiqueta(String nombreEtiqueta, Usuario usuario) {
         this.nombreEtiqueta = nombreEtiqueta;
         this.usuario = usuario;
     }
@@ -53,19 +45,20 @@ public class Etiqueta {
         this.nombreEtiqueta = nombreEtiqueta;
     }
 
-    public Integer getUsuario() {
+    public Usuario getUsuario() {
         return usuario;
     }
-    public void setUsuario(Integer usuario) {
+
+    public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
+
     @Override
     public String toString() {
         return "Etiqueta{" +
                 "id=" + id +
                 ", nombreEtiqueta='" + nombreEtiqueta + '\'' +
+                ", usuario=" + usuario +
                 '}';
     }
-
-    // Otras propiedades y métodos de la entidad
 }

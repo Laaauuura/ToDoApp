@@ -1,15 +1,7 @@
 package bo.edu.ucb.tasks.entity;
 
-import java.sql.Date;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "tareas")
@@ -17,14 +9,16 @@ public class Tarea {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "titulo", nullable = false)
     private String titulo;
 
     @Column(name = "fecha_limite")
     private Date fechaLimite;
 
+    @Column(name = "completada")
     private boolean completada;
 
     @Column(name = "fecha_completada")
@@ -42,7 +36,7 @@ public class Tarea {
     public Tarea() {
     }
 
-    // Constructor con todos los campos excepto id (generado automáticamente)
+    // Constructor con parámetros
     public Tarea(String titulo, Date fechaLimite, boolean completada, Date fechaCompletada, Usuario usuario, Etiqueta etiqueta) {
         this.titulo = titulo;
         this.fechaLimite = fechaLimite;
@@ -52,7 +46,7 @@ public class Tarea {
         this.etiqueta = etiqueta;
     }
 
-    // Getters y setters para todos los campos
+    // Getters y setters
     public Long getId() {
         return id;
     }
@@ -120,6 +114,5 @@ public class Tarea {
                 ", etiqueta=" + etiqueta +
                 '}';
     }
-    
-    // Otras propiedades y métodos de la entidad
+
 }

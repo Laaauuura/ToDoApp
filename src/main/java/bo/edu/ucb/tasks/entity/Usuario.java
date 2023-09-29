@@ -1,16 +1,10 @@
 package bo.edu.ucb.tasks.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "usuarios")
-
-public class Usuario{
+public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,11 +17,15 @@ public class Usuario{
     @Column(name = "contrasena", nullable = false)
     private String contrasena;
 
-    // Constructores
+    // Constructor vacío
     public Usuario() {
-        // Constructor vacío necesario para JPA
     }
 
+    // Constructor con parámetros
+    public Usuario(String nombreUsuario, String contrasena) {
+        this.nombreUsuario = nombreUsuario;
+        this.contrasena = contrasena;
+    }
 
     // Getters y setters
     public Long getId() {
@@ -53,6 +51,7 @@ public class Usuario{
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }
+
 
     @Override
     public String toString() {
