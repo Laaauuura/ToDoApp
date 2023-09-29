@@ -1,22 +1,20 @@
 package bo.edu.ucb.tasks.api;
-import java.util.List;
-import java.security.Security;
-import java.util.ArrayList;
 
-import org.springframework.scheduling.config.Task;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import bo.edu.ucb.tasks.bl.SecurityBl;
 import bo.edu.ucb.tasks.dto.LoginRequestDto;
 import bo.edu.ucb.tasks.dto.ResponseDto;
 import bo.edu.ucb.tasks.entity.Usuario;
+@RestController
 
 public class LoginAPI {
 
 
     SecurityBl securityBl;
+    
     public LoginAPI(SecurityBl securityBl) {
         this.securityBl = securityBl;
     }
