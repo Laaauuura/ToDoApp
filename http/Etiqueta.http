@@ -30,3 +30,8 @@ Content-Type: application/json
 ### Eliminar una etiqueta por ID ###
 DELETE http://localhost:9999/api/v1/etiquetas/1
 Accept: application/json
+
+
+### Eliminar una etiqueta por ID inválido ###
+DELETE http://localhost:9999/api/v1/etiquetas/100
+Accept: application/json

@@ -11,9 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import bo.edu.ucb.tasks.bl.EtiquetaBl;
+import bo.edu.ucb.tasks.bl.TareaBl;
 import bo.edu.ucb.tasks.dto.EtiquetaRequestDto;
 import bo.edu.ucb.tasks.dto.EtiquetaResponseDto;
 import bo.edu.ucb.tasks.entity.Etiqueta;
+import bo.edu.ucb.tasks.entity.Tarea;
 import bo.edu.ucb.tasks.entity.Usuario;
 
 @RestController
@@ -22,10 +24,12 @@ public class EtiquetaAPI {
     private static final Logger LOG = LoggerFactory.getLogger(EtiquetaAPI.class);
 
     private EtiquetaBl etiquetaBl;
+    private TareaBl tareaBl;
 
     @Autowired
-    public EtiquetaAPI(EtiquetaBl etiquetaBl) {
+    public EtiquetaAPI(EtiquetaBl etiquetaBl, TareaBl tareaBl) {
         this.etiquetaBl = etiquetaBl;
+        this.tareaBl = tareaBl;
     }
 
     @PostMapping("/api/v1/etiquetas")
@@ -102,13 +106,32 @@ public class EtiquetaAPI {
 
 
     @DeleteMapping("/api/v1/etiquetas/{id}")
-    public EtiquetaResponseDto eliminarEtiqueta(@PathVariable Long id) {
+    public ResponseEntity<?> eliminarEtiqueta(@PathVariable Long id) {
         LOG.info("Solicitud recibida para eliminar la etiqueta con ID '{}'", id);
 
-        etiquetaBl.eliminarEtiqueta(id);
+        try {
+            // Obtén las tareas asociadas a la etiqueta y elimínalas
+            List<Tarea> tareasAsociadas = tareaBl.obtenerTareasPorEtiqueta(id);
+            for (Tarea tarea : tareasAsociadas) {
+                tareaBl.eliminarTarea(tarea.getId());
+            }
 
-        LOG.info("La etiqueta se eliminó correctamente.");
+            // Luego, elimina la etiqueta
+            boolean etiquetaEliminada = etiquetaBl.eliminarEtiqueta(id);
 
-        return new EtiquetaResponseDto("La etiqueta se eliminó correctamente.");
+            if (etiquetaEliminada) {
+                LOG.info("La etiqueta se eliminó correctamente.");
+                return new ResponseEntity<>("La etiqueta se eliminó correctamente.", HttpStatus.OK);
+            } else {
+                LOG.warn("No se encontró la etiqueta con ID '{}' para eliminar.", id);
+                LOG.info("La etiqueta no se pudo eliminar porque no se encontró.");
+                return new ResponseEntity<>("La etiqueta no se pudo eliminar porque no se encontró.", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            LOG.error("Error al intentar eliminar la etiqueta con ID '{}': {}", id, e.getMessage());
+            return new ResponseEntity<>("Ocurrió un error al eliminar la etiqueta.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
+
 }
