@@ -13,6 +13,7 @@ import bo.edu.ucb.tasks.entity.Etiqueta;
 import bo.edu.ucb.tasks.entity.Tarea;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.ArrayList;
 
 @RestController
@@ -71,6 +72,17 @@ public class TareaAPI {
         }
         return responseDtos;
     }
+    @GetMapping("/api/v1/tareas/usuario/{usuarioId}")
+        public ResponseEntity<List<TareaResponseDto>> obtenerTareasPorUsuario(@PathVariable Long usuarioId) {
+            List<Tarea> tareas = tareaBl.obtenerTareasPorUsuario(usuarioId);
+            
+            List<TareaResponseDto> response = tareas.stream()
+                    .map(TareaResponseDto::new)
+                    .collect(Collectors.toList());
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+
 
     @PutMapping("/api/v1/tareas/{id}/estado")
     public ResponseEntity<?> actualizarEstadoTarea(@PathVariable Long id, @RequestBody TareaRequestDto tareaRequestDto) {

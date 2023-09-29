@@ -38,4 +38,8 @@ public class EtiquetaBl {
     public List<Etiqueta> obtenerEtiquetasPorUsuarioId(Long usuarioId) {
         return etiquetaDao.findByUsuarioId(usuarioId);
     }
+
+    public List<Etiqueta> obtenerEtiquetasPorUsuario(Long usuarioId) {
+        return etiquetaDao.findByUsuarioId(usuarioId);
+    }
 }

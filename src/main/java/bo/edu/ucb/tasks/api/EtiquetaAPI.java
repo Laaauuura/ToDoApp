@@ -2,6 +2,7 @@ package bo.edu.ucb.tasks.api;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -59,6 +60,19 @@ public class EtiquetaAPI {
         }
         return responseDtos;
     }
+
+    @GetMapping("/api/v1/etiquetas/usuario/{usuarioId}")
+    public List<EtiquetaResponseDto> obtenerEtiquetasPorUsuario(@PathVariable Long usuarioId) {
+        List<Etiqueta> etiquetas = etiquetaBl.obtenerEtiquetasPorUsuario(usuarioId);
+    
+    // Mapear las etiquetas a EtiquetaResponseDto y devolver la lista
+    List<EtiquetaResponseDto> response = etiquetas.stream()
+            .map(EtiquetaResponseDto::new)
+            .collect(Collectors.toList());
+
+    return response;
+}
+
 
     @DeleteMapping("/api/v1/etiquetas/{id}")
     public EtiquetaResponseDto eliminarEtiqueta(@PathVariable Long id) {
