@@ -72,6 +72,19 @@ public class TareaAPI {
         return responseDtos;
     }
 
+    @PutMapping("/api/v1/tareas/{id}/estado")
+    public ResponseEntity<?> actualizarEstadoTarea(@PathVariable Long id, @RequestBody TareaRequestDto tareaRequestDto) {
+        boolean nuevoEstado = tareaRequestDto.isCompletada();
+        Tarea tareaActualizada = tareaBl.actualizarEstadoTarea(id, nuevoEstado);
+        
+    if (tareaActualizada != null) {
+        return new ResponseEntity<>(new TareaResponseDto(tareaActualizada), HttpStatus.OK);
+    } else {
+        return new ResponseEntity<>("No se encontró la tarea con el ID proporcionado.", HttpStatus.NOT_FOUND);
+    }
+}
+
+
     @DeleteMapping("/api/v1/tareas/{id}")
         public ResponseEntity<?> eliminarTarea(@PathVariable Long id) {
             tareaBl.eliminarTarea(id);

@@ -35,5 +35,7 @@ public class EtiquetaBl {
         return etiquetaDao.findAll();
     }
 
-    // Otros métodos relacionados con el manejo de etiquetas si es necesario
+    public List<Etiqueta> obtenerEtiquetasPorUsuarioId(Long usuarioId) {
+        return etiquetaDao.findByUsuarioId(usuarioId);
+    }
 }

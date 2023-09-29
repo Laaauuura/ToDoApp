@@ -47,4 +47,15 @@ public class TareaBl {
     public List<Tarea> obtenerTareasPorUsuarioYCompletadas(Long usuarioId, boolean completada) {
         return tareaDao.findByUsuarioIdAndCompletada(usuarioId, completada);
     }
+
+    public Tarea actualizarEstadoTarea(Long tareaId, boolean nuevoEstado) {
+        Tarea tarea = tareaDao.findById(tareaId).orElse(null);
+        
+        if (tarea != null) {
+            tarea.setCompletada(nuevoEstado);
+            return tareaDao.save(tarea);
+        } else {
+            return null;
+        }
+    }
 }

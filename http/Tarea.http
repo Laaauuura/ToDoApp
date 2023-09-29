@@ -4,17 +4,25 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "titulo": "Tarea 1",
+    "titulo": "Lavar el coche",
     "fechaLimite": "2023-10-31",
     "completada": false,
-    "usuarioId": "1",
-    "etiquetaId": "2"
+    "usuarioId": 1,
+    "etiquetaId": 2
 }
 
 ### Obtener una tarea por ID ###
 GET http://localhost:9999/api/v1/tareas/1
 Accept: application/json
 
-### Eliminar una tarea por ID ###
-DELETE http://localhost:9999/api/v1/tareas/1
+### Actualizar el estado de una tarea por ID ###
+PUT http://localhost:9999/api/v1/tareas/1/estado
+Accept: application/json
+Content-Type: application/json
+
+{
+    "completada": true
+}
+### Obtener una tarea por ID ###
+GET http://localhost:9999/api/v1/tareas
 Accept: application/json
