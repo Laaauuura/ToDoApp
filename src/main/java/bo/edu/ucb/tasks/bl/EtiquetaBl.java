@@ -42,4 +42,7 @@ public class EtiquetaBl {
     public List<Etiqueta> obtenerEtiquetasPorUsuario(Long usuarioId) {
         return etiquetaDao.findByUsuarioId(usuarioId);
     }
+    public Etiqueta actualizarEtiqueta(Etiqueta etiqueta) {
+        return etiquetaDao.save(etiqueta);
+    }
 }

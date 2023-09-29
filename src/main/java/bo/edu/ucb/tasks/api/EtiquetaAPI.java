@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import bo.edu.ucb.tasks.bl.EtiquetaBl;
 import bo.edu.ucb.tasks.dto.EtiquetaRequestDto;
@@ -37,6 +39,20 @@ public class EtiquetaAPI {
 
         Etiqueta nuevaEtiqueta = etiquetaBl.crearEtiqueta(etiqueta);
         return new EtiquetaResponseDto(nuevaEtiqueta);
+    }
+    @PutMapping("/api/v1/etiquetas/{id}")
+    public ResponseEntity<EtiquetaResponseDto> actualizarEtiqueta(
+        @PathVariable Long id,
+        @RequestBody EtiquetaRequestDto etiquetaRequestDto
+    ) {
+        Etiqueta etiquetaExistente = etiquetaBl.obtenerEtiquetaPorId(id);
+
+        if (etiquetaExistente == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        etiquetaExistente.setNombreEtiqueta(etiquetaRequestDto.getNombreEtiqueta());
+        Etiqueta etiquetaActualizada = etiquetaBl.actualizarEtiqueta(etiquetaExistente);
+        return new ResponseEntity<>(new EtiquetaResponseDto(etiquetaActualizada), HttpStatus.OK);
     }
 
 
