@@ -5,6 +5,7 @@ import bo.edu.ucb.tasks.entity.Etiqueta;
 public class EtiquetaResponseDto {
     private Long id;
     private String nombreEtiqueta;
+    private Long usuarioId;
     private String message;
 
     public EtiquetaResponseDto() {
@@ -33,6 +34,13 @@ public class EtiquetaResponseDto {
 
     public void setNombreEtiqueta(String nombreEtiqueta) {
         this.nombreEtiqueta = nombreEtiqueta;
+    }
+
+    public Long getUsuarioId() {
+        return usuarioId;
+    }
+    public void setUsuarioId(Long usuarioId) {
+        this.usuarioId = usuarioId;
     }
 
     public String getMessage() {

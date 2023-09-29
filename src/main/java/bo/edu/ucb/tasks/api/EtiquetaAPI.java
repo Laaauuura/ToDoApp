@@ -9,6 +9,9 @@ import bo.edu.ucb.tasks.bl.EtiquetaBl;
 import bo.edu.ucb.tasks.dto.EtiquetaRequestDto;
 import bo.edu.ucb.tasks.dto.EtiquetaResponseDto;
 import bo.edu.ucb.tasks.entity.Etiqueta;
+import bo.edu.ucb.tasks.entity.Usuario;
+
+
 
 @RestController
 public class EtiquetaAPI {
@@ -24,9 +27,18 @@ public class EtiquetaAPI {
     public EtiquetaResponseDto crearEtiqueta(@RequestBody EtiquetaRequestDto etiquetaRequestDto) {
         Etiqueta etiqueta = new Etiqueta();
         etiqueta.setNombreEtiqueta(etiquetaRequestDto.getNombreEtiqueta());
+
+        if (etiquetaRequestDto.getUsuarioId() != null) {
+            Usuario usuario = new Usuario();
+            usuario.setId(etiquetaRequestDto.getUsuarioId());
+            etiqueta.setUsuario(usuario);
+        }
+
         Etiqueta nuevaEtiqueta = etiquetaBl.crearEtiqueta(etiqueta);
         return new EtiquetaResponseDto(nuevaEtiqueta);
     }
+
+
 
     @GetMapping("/api/v1/etiquetas/{id}")
     public EtiquetaResponseDto obtenerEtiquetaPorId(@PathVariable Long id) {

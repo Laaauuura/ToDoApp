@@ -1,7 +1,9 @@
 package bo.edu.ucb.tasks.dto;
 
+
 public class EtiquetaRequestDto {
     private String nombreEtiqueta;
+    private Long usuarioId; // Agregamos un campo para el ID del usuario
 
     public EtiquetaRequestDto() {
     }
@@ -16,5 +18,13 @@ public class EtiquetaRequestDto {
 
     public void setNombreEtiqueta(String nombreEtiqueta) {
         this.nombreEtiqueta = nombreEtiqueta;
+    }
+
+    public Long getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(Long usuarioId) {
+        this.usuarioId = usuarioId;
     }
 }
