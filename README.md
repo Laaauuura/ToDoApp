@@ -29,3 +29,27 @@ Este es un proyecto de una aplicación de gestión de tareas que te permite crea
   - `dto` contiene los objetos de transferencia de datos.
   - `entity` contiene las entidades JPA.
 
+## Estructura de la Base de Datos
+
+CREATE TABLE usuarios (
+    id SERIAL PRIMARY KEY,
+    nombre_usuario VARCHAR(255) UNIQUE NOT NULL,
+    contrasena VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE tareas (
+    id SERIAL PRIMARY KEY,
+    titulo VARCHAR(255) NOT NULL,
+    fecha_limite DATE,
+    completada BOOLEAN DEFAULT false,
+    fecha_completada TIMESTAMP,
+    usuario_id INT REFERENCES usuarios(id),
+    etiqueta_id INT REFERENCES etiquetas(id)
+);
+
+CREATE TABLE etiquetas (
+    id SERIAL PRIMARY KEY,
+    nombre_etiqueta VARCHAR(50) NOT NULL,
+    usuario_id INT,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+);

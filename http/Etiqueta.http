@@ -4,8 +4,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "nombreEtiqueta": "Colegio",
-    "usuarioId": "1"
+    "nombreEtiqueta": "Almuerzo",
+    "usuarioId": "2"
 }
 
 ### Obtener una etiqueta por ID ###

@@ -12,7 +12,7 @@ Content-Type: application/json
 }
 
 ### Obtener una tarea por ID ###
-GET http://localhost:9999/api/v1/tareas/1
+GET http://localhost:9999/api/v1/tareas/9
 Accept: application/json
 
 ### Actualizar el estado de una tarea por ID ###
@@ -31,3 +31,10 @@ Accept: application/json
 GET http://localhost:9999/api/v1/tareas/usuario/1
 Accept: application/json
 
+###Eliminar tarea con id válido###
+DELETE http://localhost:9999/api/v1/tareas/14
+Accept: application/json
+
+###Eliminar tarea con id inválido###
+DELETE http://localhost:9999/api/v1/tareas/100
+Accept: application/json

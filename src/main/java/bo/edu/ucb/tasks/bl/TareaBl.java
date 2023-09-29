@@ -7,6 +7,7 @@ import bo.edu.ucb.tasks.dao.TareaDao;
 import bo.edu.ucb.tasks.entity.Tarea;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TareaBl {
@@ -28,9 +29,24 @@ public class TareaBl {
     }
 
 
-    public void eliminarTarea(Long id) {
-        tareaDao.deleteById(id);
+    public boolean eliminarTarea(Long id) {
+        // Intenta obtener la tarea por su ID
+        Optional<Tarea> tareaOptional = tareaDao.findById(id);
+        
+        if (tareaOptional.isPresent()) {
+            // Si la tarea existe, elimínala y luego verifica si aún existe en la base de datos
+            tareaDao.delete(tareaOptional.get());
+            boolean tareaExiste = tareaDao.existsById(id);
+            // Devuelve true si la eliminación tuvo éxito y la tarea no existe en la base de datos
+            return !tareaExiste;
+        } else {
+            // Si no se encontró la tarea, devuelve false
+            return false;
+        }
     }
+    
+    
+    
 
     public List<Tarea> obtenerTodasLasTareas() {
         return tareaDao.findAll();
