@@ -13,7 +13,7 @@ GET http://localhost:9999/api/v1/etiquetas/1
 Accept: application/json
 
 ### Obtener todas las etiquetas por usuario ###
-GET http://localhost:9999/api/v1/etiquetas/usuario/1
+GET http://localhost:9999/api/v1/etiquetas/usuario/2
 Accept: application/json
 
 ### Actualizar el nombre de una etiqueta ###
@@ -22,13 +22,11 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "nombreEtiqueta": "Cocina"
+    "nombreEtiqueta": "Cena"
 }
 
-
-
 ### Eliminar una etiqueta por ID ###
-DELETE http://localhost:9999/api/v1/etiquetas/1
+DELETE http://localhost:9999/api/v1/etiquetas/4
 Accept: application/json
 
 

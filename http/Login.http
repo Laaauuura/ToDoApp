@@ -1,19 +1,21 @@
+###Autenticacion correcta###
+
 POST http://localhost:9999/api/v1/login
 Accept: application/json
 Content-Type: application/json
 
 {
-    "usuario": "usuario1",
+    "usuario": "PedroG",
     "contrasena": "12345"
 }
 
-#Autenticacion incorrecta#
+###Autenticacion incorrecta###
 
 POST http://localhost:9999/api/v1/login
 Accept: application/json
 Content-Type: application/json
 
 {
-    "usuario": "usuario1",
+    "usuario": "PedroG",
     "contrasena": "12355"
 }
