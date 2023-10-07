@@ -28,13 +28,13 @@ public class LoginAPI {
     public ResponseDto login(@RequestBody LoginRequestDto loginRequestDto) {
         LOG.info("Solicitud de inicio de sesión recibida para el usuario: {}", loginRequestDto.getUsuario());
 
-        Usuario usuario;
+        Usuario usuario = null;
         try {
             usuario = securityBl.login(loginRequestDto.getUsuario(), loginRequestDto.getContrasena());
             LOG.info("Inicio de sesión exitoso para el usuario: {}", usuario.getNombreUsuario());
         } catch (RuntimeException ex) {
             LOG.error("Error durante el inicio de sesión: {}", ex.getMessage());
-            return new ResponseDto("TASK-1000", ex.getMessage());
+            return new ResponseDto("TASK-1000", ex.getMessage(), usuario.getId());
         }
 
         return new ResponseDto(usuario);

@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import java.util.ArrayList;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class TareaAPI {
 
     private static final Logger LOG = LoggerFactory.getLogger(TareaAPI.class);
